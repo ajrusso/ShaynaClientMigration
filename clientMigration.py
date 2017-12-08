@@ -55,6 +55,11 @@ def get_header(excel_filepath):
     header = [cell.value for cell in ws[1]]
     return header
 
+# Add Header to Worksheet
+def add_header(header, row, ws):
+    for col, val in enumerate(header, start=1):
+        ws.cell(row=row, column=col).value = val
+
 # Find 123 Pets for a 123 Client
 def find_pets123(client_id, pet123_list):
     pets = []
@@ -119,11 +124,20 @@ def main():
     for client in client123_list:
         cust_list.append(Customer(client, find_pets123(client["ClientID"], pet123_list)))
 
-    row = 2
+    ###################################
+    # Build Revelation Pet Excel File #
+    ###################################
+    row = 1
+    #### Add Header to Worksheet ####
+    header = get_header(settings.clientrev_filepath)
+    add_header(header, row, ws)
+
+    #### Add Customers and Pets to Worksheet####
+    row += 1
     for cust in cust_list:
-        #input = raw_input("Hit enter to print a customer")
-        #pprint(cust.__dict__)
-        #for pet in cust.Pets:
+        # input = raw_input("Hit enter to print a customer")
+        # pprint(cust.__dict__)
+        # for pet in cust.Pets:
         #    pprint(pet.__dict__)
         cust.print2ws(ws, row)
         if not cust.Pets:
@@ -132,8 +146,9 @@ def main():
             for pet in cust.Pets:
                 pet.print2ws(ws, row)
                 row += 1
-    wb.save(settings.new_clientrev_filepath)
 
+    #### Print To Excel File ####
+    wb.save(settings.new_clientrev_filepath)
 
 
 if __name__ == "__main__":
