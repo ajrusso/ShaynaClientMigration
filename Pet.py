@@ -10,22 +10,29 @@
 class Pet:
 
     def __init__(self, breed=None, sex=None, type=None, vet=None, weight=None,
-                       dead=None, name=None, vaccinated=None, age=None,
-                       dietary=None, medication=None, microchip=None,
-                       registration=None):
+                 dead=None, name=None, vaccinated=None, bordetella=None, dhpp=None,
+                 fvrcp=None, flea_and_tick=None, parvo=None, rabies=None, leptospirosis=None,
+                 age=None, dietary=None, medication=None, microchip=None, registration=None):
         self.breed = (breed, 17)
         self.sex = (sex, 18)
         self.type = (type, 15)
-        self.vet = (vet, 28)
+        self.vet = (vet, 35)
         self.weight = (weight, 23)
         self.dead = (dead, 16)
         self.name = (name, 14)
         self.vaccinated = (vaccinated, 24)
+        self.bordetella = (bordetella, 25)
+        self.dhpp = (dhpp, 26)
+        self.fvrcp = (fvrcp, 27)
+        self.flea_and_tick = (flea_and_tick, 28)
+        self.parvo = (parvo, 29)
+        self.rabies = (rabies, 30)
+        self.leptospirosis = (leptospirosis, 31)
         self.age = (age, 19)
-        self.dietary = (dietary, 25)
-        self.medication = (medication, 26)
+        self.dietary = (dietary, 32)
+        self.medication = (medication, 33)
         self.microchip = (microchip, 21)
-        self.registartion = (registration, 20)
+        self.registration = (registration, 20)
 
     def print2ws(self, ws, row):
         members = [attr for attr in dir(self) if not callable(getattr(self, attr)) and not attr.startswith("__")]
