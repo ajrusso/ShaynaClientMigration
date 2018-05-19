@@ -12,7 +12,6 @@
 ###############################################################################################
 
 
-from pprint import pprint
 from Customer import Customer
 import openpyxl
 import settings
@@ -118,6 +117,7 @@ def write_clientrev(client123, pet123):
 
 
 def main():
+    debug = False
     wb = openpyxl.Workbook()
     ws = wb.get_active_sheet()
     pet123_list, vaccine123_list, client123_list, clientrev_list = [], [], [], []
@@ -177,7 +177,7 @@ def main():
         # input = raw_input("Hit enter to print a customer")
         # pprint(cust.__dict__)
         # for pet in cust.Pets:
-        #    pprint(pet.__dict__)
+        #     pprint(pet.__dict__)
         cust.print2ws(ws, row)
         if not cust.Pets:
             row += 1

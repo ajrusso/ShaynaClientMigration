@@ -9,7 +9,7 @@
 
 class Pet:
 
-    def __init__(self, breed=None, sex=None, type=None, vet=None, weight=None,
+    def __init__(self, breed=None, sex=None, type=None, vet=None, weight=None, spayed_neutered=None,
                  dead=None, name=None, vaccinated=None, bordetella=None, dhpp=None,
                  fvrcp=None, flea_and_tick=None, parvo=None, rabies=None, leptospirosis=None,
                  age=None, dietary=None, medication=None, microchip=None, registration=None):
@@ -33,6 +33,7 @@ class Pet:
         self.medication = (medication, 33)
         self.microchip = (microchip, 21)
         self.registration = (registration, 20)
+        self.spayed_neutered = (spayed_neutered, 22)
 
     def print2ws(self, ws, row):
         members = [attr for attr in dir(self) if not callable(getattr(self, attr)) and not attr.startswith("__")]

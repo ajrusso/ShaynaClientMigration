@@ -7,7 +7,7 @@
 
 
 from Pet import Pet
-
+import re
 
 class Customer:
     def __init__(self, client, pets, vaccines):
@@ -53,19 +53,19 @@ class Customer:
         return client["EmergencyContactNumber"]
 
     def get_name(self, client):
-        return str(client["FirstName"]) + str(client["LastName"])
+        return str(client["FirstName"]).replace('"', '') + " " + str(client["LastName"]).replace('"', '')
 
     def get_notes(self, client):
         return client["Comment"]
 
     def get_postcode_zip(self, client):
-        return ""
+        return client["ZIP"]
 
     def get_telephone(self, client):
-        return client["PrimaryPhoneNumber"]
+        return client["PrimaryPhoneNumber"].replace('(', '').replace(')', '')
 
     def get_mobile_phone(self, client):
-        return client["CellPhone"]
+        return client["CellPhone"].replace('(', '').replace(')', '')
 
     def get_total_amount_spent(self, client):
         return 0
@@ -75,8 +75,10 @@ class Customer:
         pet_objects = []
         for pet in pets:
             pet_id = int(pet["PetID"])
+
+            # Gather Vaccine Information
             if int(pet_id) in vaccines:
-                vaccinated = "yes"
+                vaccinated = "Yes"
                 vaccine = vaccines[pet_id]
                 bordetella = vaccine["bordetella"] if "bordetella" in vaccine else ""
                 dhpp = vaccine["dhpp"] if "dhpp" in vaccine else ""
@@ -86,7 +88,7 @@ class Customer:
                 rabies = vaccine["rabies"] if "rabies" in vaccine else ""
                 leptospirosis = vaccine["leptospirosis"] if "leptospirosis" in vaccine else ""
             else:
-                vaccinated = "no"
+                vaccinated = "No"
                 bordetella = ""
                 dhpp = ""
                 fvrcp = ""
@@ -95,13 +97,31 @@ class Customer:
                 rabies = ""
                 leptospirosis = ""
 
+            # Figure out if pet is dead or not
+            if pet["Dead"].lower() == "true":
+                dead = "Yes"
+            elif pet["Dead"].lower() == "false":
+                dead = "No"
+            else:
+                dead = "No"
+
+            # Figure out if pet is nuetered/spayed
+            breeding = pet["Breeding"].lower()
+            if breeding == "spayed":
+                breeding = "Yes"
+            elif breeding == "neutered":
+                breeding = "Yes"
+            else:
+                breeding = "No"
+
             pet_objects.append(Pet(breed=pet["Breed"],
-                                   sex=pet["Gender"],
+                                   sex=pet["Gender"] if pet["Gender"] == "Male" or pet["Gender"] == "Female" else "Unknown",
                                    type=pet["Type"],
                                    vet=pet["Vet"],
-                                   weight=pet["Weight"],
-                                   dead=pet["Dead"],
+                                   weight=pet["Weight"].lower().replace('lbs', '').replace('lb', '') if pet["Weight"] else "0",
+                                   dead=dead,
                                    name=pet["Name"],
+                                   spayed_neutered=breeding,
                                    vaccinated=vaccinated,
                                    bordetella=bordetella,
                                    dhpp=dhpp,
