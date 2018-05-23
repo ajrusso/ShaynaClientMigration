@@ -56,7 +56,7 @@ class Customer:
         return str(client["FirstName"]).replace('"', '') + " " + str(client["LastName"]).replace('"', '')
 
     def get_notes(self, client):
-        return client["Comment"]
+        return client["ClientHistory"]
 
     def get_postcode_zip(self, client):
         return client["ZIP"]
@@ -114,6 +114,15 @@ class Customer:
             else:
                 breeding = "No"
 
+            # Build Comment Section
+            comments = ""
+            if pet["Comments"]:
+                comments += " Comments: " + pet["Comments"]
+            if pet["GroomComments"]:
+                comments += " GroomComments: " + pet["GroomComments"]
+            if pet["PersonalityComments"]:
+                comments += " PersonalityComments: " + pet["PersonalityComments"]
+
             pet_objects.append(Pet(breed=pet["Breed"],
                                    sex=pet["Gender"] if pet["Gender"] == "Male" or pet["Gender"] == "Female" else "Unknown",
                                    type=pet["Type"],
@@ -121,6 +130,7 @@ class Customer:
                                    weight=pet["Weight"].lower().replace('lbs', '').replace('lb', '') if pet["Weight"] else "0",
                                    dead=dead,
                                    name=pet["Name"],
+                                   notes=comments,
                                    spayed_neutered=breeding,
                                    vaccinated=vaccinated,
                                    bordetella=bordetella,
@@ -131,8 +141,8 @@ class Customer:
                                    rabies=rabies,
                                    leptospirosis=leptospirosis,
                                    age="",
-                                   dietary="",
-                                   medication="",
+                                   dietary=pet["KennelComments"],
+                                   medication=pet["MedicalComments"],
                                    microchip="",
                                    registration=""))
         return pet_objects
