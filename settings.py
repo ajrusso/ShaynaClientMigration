@@ -1,6 +1,6 @@
 # Settings File
 #
-dir = "C:/Users/itali_000/Documents/Tech Projects/Software Design/Shayna/Data_05_04_18/"
+dir = "C:/Users/itali_000/Documents/Tech Projects/Software Design/Shayna/Data_05_22_18/"
 # Pet123 Client Data Configuration
 client123_filepath = dir + 'Clients.xlsx'
 
